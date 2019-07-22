@@ -98,9 +98,9 @@ void generate_w_projection_kernels(void)
     normalize_kernels_sum_of_one(kernels, number_w_planes, conv_half_size, oversample);
     
     printf(">>> UPDATE: Extracting oversampled support kernel from quadrants...\n");
-    FILE *kernel_real_file = fopen("kernels/w-proj_kernels_real.csv", "w");
-    FILE *kernel_imag_file = fopen("kernels/w-proj_kernels_imag.csv", "w");
-    FILE *support_file = fopen("kernels/w-proj_supports.csv", "w");
+    FILE *kernel_real_file = fopen("../kernels/w-proj_kernels_real.csv", "w");
+    FILE *kernel_imag_file = fopen("../kernels/w-proj_kernels_imag.csv", "w");
+    FILE *support_file = fopen("../kernels/w-proj_supports.csv", "w");
     
     for(int iw = 0; iw < number_w_planes; ++iw)
     {
@@ -117,8 +117,8 @@ void generate_w_projection_kernels(void)
             {
                 int plane_index = kernel_offset + row * conv_half_size + col;
                 
-                fprintf(kernel_real_file, "%.10f ", kernels[plane_index].real);
-                fprintf(kernel_imag_file, "%.10f ", kernels[plane_index].imag);
+                fprintf(kernel_real_file, "%.15f ", kernels[plane_index].real);
+                fprintf(kernel_imag_file, "%.15f ", kernels[plane_index].imag);
             }
         }
         
