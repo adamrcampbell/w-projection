@@ -9,7 +9,7 @@ extern "C" {
 #define C  299792458
 #define PI 3.14159265358979323846
 
-#define SINGLE_PRECISION 1
+#define SINGLE_PRECISION 0
     
 #if SINGLE_PRECISION
     #define PREC float
