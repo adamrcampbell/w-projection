@@ -5,6 +5,7 @@
 #include <float.h>
 #include <limits.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "constants.h"
 #include "complex.h"
@@ -22,9 +23,9 @@ void generate_w_projection_kernels(void)
     
     int number_w_planes = 339;
     int grid_size = 18000;
-    int image_size = 15000;
+    int image_size = grid_size; // 15000
     
-    int oversample = 4;
+    int oversample = 4; // MUST BE POWER OF TWO
     int min_support = 4;
     int max_support = 44;
     
@@ -32,10 +33,17 @@ void generate_w_projection_kernels(void)
     
     PREC max_uvw  = 7083.386050;
     PREC w_scale = PREC_POW(number_w_planes - 1, 2.0) / max_uvw;
-    PREC cell_size = 6.39954059065e-06;
+    PREC cell_size = 6.39708380288949E-06; //6.39954059065e-06; <= we suspect new cell size
     PREC w_to_max_support_ratio = (max_support - min_support) / max_uvw;
     PREC fov = cell_size * image_size;
     
+    // Ensure oversampling factor is a power of two
+    if(!is_power_of_two(oversample))
+    {
+        printf(">>> ERROR: Oversampling value must be a power of two, exiting...\n");
+        exit(EXIT_FAILURE);
+    }
+
     // Calculate convolution kernel memory requirements
     size_t max_mem_bytes = MIN(max_bytes_per_plane * number_w_planes, get_total_ram_capacity());
     PREC max_conv_size = PREC_SQRT(max_mem_bytes / (16.0 * number_w_planes));
