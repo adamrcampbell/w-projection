@@ -11,6 +11,7 @@ extern "C" {
     
     size_t get_total_ram_capacity();
     unsigned int get_next_pow_2(unsigned int x);
+    bool is_power_of_two(unsigned int x);
 
 #ifdef __cplusplus
 }

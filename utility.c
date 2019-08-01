@@ -1,5 +1,6 @@
 
 #include <stdlib.h>
+#include <stdbool.h>
 #include <sys/sysinfo.h> // Linux specific
 
 size_t get_total_ram_capacity()
@@ -21,4 +22,9 @@ unsigned int get_next_pow_2(unsigned int x)
     x++;
     
     return x;
+}
+
+bool is_power_of_two(unsigned int x)
+{
+    return ((x & ~(x-1))==x)? x : 0;
 }
