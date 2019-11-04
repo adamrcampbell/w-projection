@@ -21,19 +21,19 @@ void generate_w_projection_kernels(void)
     else
         printf(">>> INFO: Generating W-Projection kernels using double precision...\n");
     
-    int number_w_planes = 339;
-    int grid_size = 18000;
+    int number_w_planes = 170;
+    int grid_size = 2048;
     int image_size = grid_size; // 15000
     
-    int oversample = 4; // MUST BE POWER OF TWO
+    int oversample = 10; // MUST BE POWER OF TWO
     int min_support = 4;
-    int max_support = 44;
+    int max_support = 4;
     
-    size_t max_bytes_per_plane = 12 * 1024 * 1024; // 12MB
+    size_t max_bytes_per_plane = 40 * 1024 * 1024; // 12MB
     
-    PREC max_uvw  = 7083.386050;
+    PREC max_uvw  = 1895.410847844;
     PREC w_scale = PREC_POW(number_w_planes - 1, 2.0) / max_uvw;
-    PREC cell_size = 6.39708380288949E-06; //6.39954059065e-06; <= we suspect new cell size
+    PREC cell_size =  8.52211548825356E-06; //5.622436936E-05; //6.39954059065e-06; (cellsize / ) <= we suspect new cell size
     PREC w_to_max_support_ratio = (max_support - min_support) / max_uvw;
     PREC fov = cell_size * image_size;
     
@@ -58,7 +58,10 @@ void generate_w_projection_kernels(void)
     int inner = conv_size / oversample;
     PREC max_l = PREC_SIN(0.5 * fov);
     PREC sampling = ((2.0 * max_l * oversample) / image_size) * ((PREC) grid_size / (PREC) conv_size);
-    
+
+    printf("Sampling: %f\n", sampling);
+    printf("FOV: %f\n", fov);
+
     // Allocation of memory
     Complex *kernels = calloc(number_w_planes * conv_half_size * conv_half_size, sizeof(Complex));
     Complex *screen = calloc(conv_size * conv_size, sizeof(Complex));
